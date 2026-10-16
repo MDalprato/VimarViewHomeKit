@@ -1,15 +1,26 @@
-# Vimar K42957: video e alert locali
+# Integrare un videocitofono Vimar in Homekit
 
-Prototipo verificato il 16 ottobre 2026 sul monitor `10.0.1.192`, hardware
+## Obbiettivo
+Ho un videocitofono della Vimar comprato su amazon (K42957) che funziona tramite app (anche se alcune funzionalità sono risicate) ma che 
+non risulta integrabile con nessun sistema in commercio (Homekit, Alexa, HomeAssisant ecc...)
+Mi è quindi venuto il tarlo di cercare di farlo andare con HomeAssisnat in modo da poterlo poi "convertire" in una videocamera HomeKit.
+
+## Come procedere
+Per fare ciò è necessario seguire alcuni step:
+- Individuare l'indirizzo Ip del dispositivo nella propria rete (nel mio caso, tramite il firtzbox)
+- Impostare un ip statico per quel dispositivo altrimenti se rimane in DHCP è inutile procedere
+- Conoscere la password del dispositivo (di default è quella scritta nell'etichetta dietro). Se l'avete cambiata è quella impostata nell'app Vimar View Door
+- Conoscere un pò di informatica
+
+## Testing phase
+Prototipo verificato il 16 ottobre 2026 sul monitor `10.0.1.XX`, hardware
 **IDS9457AW**, firmware **V100.R001.A344.00.G0078.B003**.
-Nessuna modifica a Home Assistant. Nessuna credenziale nei file.
 
 ## Risultati
 
-- Autenticazione HTTPS `/tdkcgi`: `adminapp2`, SHA-256 della password attuale,
-  `passwordencode=1`. La password iniziale dell'etichetta non era più valida.
+- Autenticazione solo via HTTPS (certificato locale, self signed). La password iniziale dell'etichetta non era più valida.
 - `get.record.session` / `get.record.message`: lettura registrazioni riuscita.
-- Tre pressioni esterne confermate dall'utente corrispondono a video sul
+- Ho fatto tre pressioni esterne confermate dall'utente corrispondono a video sul
   canale **2**, orari del dispositivo 14:50:07, 14:53:08, 14:56:49.
   Sono etichettati `occurtype=manual` anche quando causati dal campanello.
 - Il watcher ha emesso un solo `record_added` nella seconda prova, senza
@@ -24,6 +35,7 @@ Nessuna modifica a Home Assistant. Nessuna credenziale nei file.
   con vista del vialetto/giardino distinta dalla strada mostrata da QUII 1.
   Non è ancora verificata la corrispondenza completa tra gli indici video
   e i canali delle registrazioni delle due targhe.
+- Maledetti voi e quelli di Vimar/Qualvision che usate un fottuto protocollo video proprietario quando c'è un bellissimo RTSP utilizzabile senza problemi.
 
 ## Uso
 
