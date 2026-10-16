@@ -20,7 +20,7 @@ def select_records(records, start, end, channel=None):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--host', default='10.0.1.192')
+    p.add_argument('--host', default='10.0.1.X')
     p.add_argument('--from', dest='start', type=date.fromisoformat, default=date(2000, 1, 1))
     p.add_argument('--to', dest='end', type=date.fromisoformat, default=date.today())
     p.add_argument('--channel', choices=['1', '2'])

@@ -41,6 +41,8 @@ Prototipo verificato il 16 ottobre 2026 sul monitor `10.0.1.XX`, hardware
 
 ## Uso
 
+### Da qui in poi, è tutta opera di codex :)
+
 Python 3.10+. Il watcher non richiede librerie aggiuntive; il video richiede
 `cryptography`, ffplay per il live e ffmpeg per estrarre JPEG.
 Su questo Mac sono già disponibili. Per un nuovo ambiente:
