@@ -33,7 +33,7 @@ def envelope(username, password):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--host', default='10.0.1.X')
+    parser.add_argument('--host', default='10.0.1.192')
     parser.add_argument('--username', default='adminapp2',
                         help='From the Allo reference; not confirmed for Vimar QR login')
     parser.add_argument('--password-prompt', action='store_true',

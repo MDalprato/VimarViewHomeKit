@@ -81,7 +81,7 @@ def video_packets(client, host, port, channel, seconds):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--host', default='10.0.1.X')
+    p.add_argument('--host', default='10.0.1.192')
     p.add_argument('--port', type=int, default=34567)
     p.add_argument('--channel', type=int, default=1, help='QUII channel index (not recording channel ID)')
     p.add_argument('--seconds', type=float, default=10, help='0 means until Ctrl+C')

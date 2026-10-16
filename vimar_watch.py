@@ -108,7 +108,7 @@ class Tracker:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--host', default='10.0.1.X')
+    parser.add_argument('--host', default='10.0.1.192')
     parser.add_argument('--interval', type=float, default=10)
     parser.add_argument('--duration', type=float, default=120)
     parser.add_argument('--channel', default='2', help='Outdoor station channel observed in the ring tests')

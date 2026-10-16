@@ -15,7 +15,7 @@ Per fare ciò è necessario seguire alcuni step:
 - Conoscere un pò di informatica
 
 ## Testing phase
-Prototipo verificato il 16 ottobre 2026 sul monitor `10.0.1.XX`, hardware
+Prototipo verificato il 16 ottobre 2026 sul monitor `10.0.1.192X`, hardware
 **IDS9457AW**, firmware **V100.R001.A344.00.G0078.B003**.
 
 ## Risultati
@@ -51,6 +51,7 @@ Su questo Mac sono già disponibili. Per un nuovo ambiente:
 cd /Users/marcodalprato/GitHub/vimar_wifi_hack
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
+source .venv/bin/activate
 ```
 
 I comandi chiedono la password con input nascosto e non la salvano.

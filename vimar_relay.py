@@ -45,7 +45,7 @@ def open_relay(client, channel, relay, password, ability):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--host', default='10.0.1.X')
+    parser.add_argument('--host', default='10.0.1.192')
     parser.add_argument('--channel', type=int, choices=(1, 2), default=2)
     parser.add_argument('--relay', type=int, choices=(1, 2),
                         help='Numero protocollo; corrispondenza cancello/serratura da verificare')
