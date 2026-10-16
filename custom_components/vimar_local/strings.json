@@ -1,0 +1,24 @@
+{
+  "title": "Vimar Local",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Videocitofono Vimar locale",
+        "description": "Topologia manuale, senza verifica della connessione. Le pressioni sono simulate; i pulsanti uscita inviano comandi REALI. Video QUII sperimentale.",
+        "data": {
+          "host": "Indirizzo IPv4 del monitor",
+          "password": "Password monitor",
+          "stations": "Numero targhe",
+          "outputs_per_station": "Uscite per targa",
+          "unlock_password": "PIN apertura (vuoto = password monitor)"
+        }
+      }
+    },
+    "error": {
+      "invalid_input": "Inserire un IPv4 privato valido e una password non vuota."
+    },
+    "abort": {
+      "already_configured": "Monitor già configurato."
+    }
+  }
+}

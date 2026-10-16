@@ -1,0 +1,17 @@
+services:
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: homeassistant-dev
+    restart: unless-stopped
+
+    ports:
+      - "8123:8123"
+
+    environment:
+      - TZ=Europe/Rome
+
+    volumes:
+      - ./config:/config
+      - ./custom_components:/config/custom_components
+
+    privileged: false

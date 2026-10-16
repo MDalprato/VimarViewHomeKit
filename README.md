@@ -189,3 +189,12 @@ richiesta; in caso di timeout non riprova, perché l'uscita potrebbe essere
 stata già azionata. Un successo conferma l'accettazione del comando, non
 l'effettiva apertura della porta. `lockstatus` è un valore generale e non
 un sensore verificato della porta della targa 2.
+
+## Integrazione Home Assistant
+
+La prima versione di **Vimar Local** è in
+[`custom_components/vimar_local`](custom_components/vimar_local/README.md).
+Espone il numero di targhe configurate, le uscite come pulsanti reali,
+una pressione campanello simulabile e il video per ogni targa.
+La guida include installazione dall'interfaccia, esempi dashboard/automazioni
+e i limiti sperimentali. Il Compose locale monta già la cartella del plugin.

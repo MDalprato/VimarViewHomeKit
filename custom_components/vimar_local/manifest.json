@@ -1,0 +1,15 @@
+{
+  "domain": "vimar_local",
+  "name": "Vimar Local",
+  "version": "0.1.0",
+  "config_flow": true,
+  "documentation": "https://github.com/marcodalprato/vimar_wifi_hack",
+  "iot_class": "local_push",
+  "integration_type": "hub",
+  "dependencies": [
+    "ffmpeg",
+    "stream"
+  ],
+  "codeowners": [],
+  "requirements": []
+}

@@ -1,9 +1,34 @@
-__pycache__/
+# Home Assistant: configurazione locale, credenziali, database e backup
+/config/
+
+# Ambiente Python e cache
 .venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Credenziali locali
 .env
 .env.*
+!.env.example
+secrets.local.json
+
+# Acquisizioni, output generati e log
+/output/
 *.pcap
 *.pcapng
-secrets.local.json
-output/
 *.log
+
+# File temporanei del sistema e degli editor
+.DS_Store
+._*
+Thumbs.db
+*.swp
+*.swo
+*~
