@@ -115,6 +115,24 @@ contenitore MP4. Video/immagine di verifica in `output/verified-live.*`.
 
 ## Verifica
 
+## Esplorare le registrazioni
+
+```sh
+python3 vimar_records.py
+python3 vimar_records.py --from 2026-10-01 --to 2026-10-16 --channel 2
+python3 vimar_records.py --kind video --json
+```
+
+Elenca data/ora del monitor, canale, tipo, durata, codec e ID locale.
+Senza filtri cerca dal 2000 a oggi su entrambi i canali, foto e video.
+Applica anche i filtri localmente, perché il monitor può ignorare quelli
+della richiesta. Alla prova sono stati restituiti quattro video e zero foto.
+Il risultato è quanto restituito dal dispositivo, non una garanzia che
+l'archivio sia completo: il protocollo può restituire liste parziali.
+Paginazione limitata a 20 pagine per tipo; superato il limite segnala errore.
+Questo comando consulta i metadati: riproduzione/download delle registrazioni
+e cancellazione non implementati. Il live usa un protocollo distinto.
+
 ```sh
 python3 vimar_probe.py --password-prompt
 python3 -m unittest -v test_vimar_watch.py test_vimar_video.py
@@ -137,3 +155,34 @@ redirect disabilitati. Nessun comando di apertura serrature o configurazione.
   altri kit Vimar e `get.device.status`.
 - [link-amazon](https://www.amazon.it/K42957-supplementare-videocitofonico-alimentatore-fissaggio/dp/B0CVN4RY8V): è quello che ho comprato io.
 
+
+### Relè / apertura (sperimentale)
+
+`vimar_relay.py` usa `set.device.opendoor` con i campi XML `door`,
+`locknumber`, `password`, ricavati dalle annotazioni di `DeviceUnlockContent`
+nell'app VIEW Door. Se la capacità 24 è attiva, applica SHA-256 al PIN come
+`QvDeviceApi.deviceUnlock`; l'autenticazione del monitor resta separata.
+Non richiede pacchetti aggiuntivi, ma va mantenuto insieme a `vimar_watch.py`
+e `vimar_probe.py`.
+
+```bash
+python3 vimar_relay.py                          # simulazione, nessuna connessione
+python3 vimar_relay.py --status                 # sola lettura
+python3 vimar_relay.py --channel 2 --relay 2 --open  # apertura REALE del relè 2
+```
+
+**Il numero 2 nell'ultimo esempio è un ID di relè, non una corrispondenza
+confermata con il pulsante cancello.** Il monitor risponde a
+`get.device.attachInfo` con contenuto vuoto: non è stato possibile ricavare
+l'associazione icona/uscita. Nessuna apertura è stata eseguita durante lo
+sviluppo; parametri, mancata attuazione predefinita e assenza di retry sono
+verificati con test locali. La compatibilità dell'apertura su questo monitor
+e l'associazione con la porta di casa restano da verificare fisicamente.
+
+La password viene chiesta al terminale, oppure letta da `VIMAR_PASSWORD`.
+Se il PIN di apertura è diverso, usare `--separate-unlock-password` oppure
+`VIMAR_UNLOCK_PASSWORD`. Non salvarlo nel codice. Lo script invia una sola
+richiesta; in caso di timeout non riprova, perché l'uscita potrebbe essere
+stata già azionata. Un successo conferma l'accettazione del comando, non
+l'effettiva apertura della porta. `lockstatus` è un valore generale e non
+un sensore verificato della porta della targa 2.

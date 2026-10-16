@@ -45,9 +45,13 @@ class Client:
             raise ProtocolError(f'Device error {code}')
         return result
 
-    def records(self, kind):
+    def records(self, kind, start=None, end=None, *, include_locator=False):
         root = ET.fromstring(envelope('adminapp2', self.secret))
         root.find('.//filetype').text = kind
+        if start is not None:
+            root.find('.//starttime').text = start
+        if end is not None:
+            root.find('.//endtime').text = end
         response = self.send(root)
         session = response.findtext('.//record/id')
         if not session:
@@ -67,11 +71,19 @@ class Client:
                 timestamp = data.get('starttime', '').upper()
                 # Require valid device timestamps; do not turn malformed pages into events.
                 datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
-                records.append({
+                record = {
                     'id': hashlib.sha256(data.get('filename', '').encode()).hexdigest()[:20],
                     'starttime': timestamp, 'filetype': data.get('filetype'),
                     'occurtype': data.get('occurtype'), 'channel': data.get('channel'),
-                })
+                    'endtime': data.get('endtime', '').upper(),
+                    'codec': data.get('codetype', ''),
+                }
+                if include_locator:
+                    record['filename'] = data.get('filename', '').strip()
+                    record['address'] = {x.tag: (x.text or '').strip()
+                                         for x in item.findall('./address/*')}
+                    record['filesize'] = data.get('filesize', '').strip()
+                records.append(record)
         raise ProtocolError('Pagination limit reached; partial result discarded')
 
 
