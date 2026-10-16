@@ -1,5 +1,7 @@
 # Integrare un videocitofono Vimar in Homekit
 
+![Descrizione immagine](./assets/logo.jpg)
+
 ## Obbiettivo
 Ho un videocitofono della Vimar comprato su amazon (K42957) che funziona tramite app (anche se alcune funzionalità sono risicate) ma che 
 non risulta integrabile con nessun sistema in commercio (Homekit, Alexa, HomeAssisant ecc...)
@@ -133,3 +135,5 @@ redirect disabilitati. Nessun comando di apertura serrature o configurazione.
   Licenza MIT conservata. Nessun modulo web o talk eseguito.
 - [qualvision-tools](https://github.com/dpeddi/qualvision-tools): ricerca su
   altri kit Vimar e `get.device.status`.
+- [link-amazon](https://www.amazon.it/K42957-supplementare-videocitofonico-alimentatore-fissaggio/dp/B0CVN4RY8V): è quello che ho comprato io.
+
