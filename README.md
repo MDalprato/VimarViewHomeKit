@@ -86,6 +86,53 @@ La ricerca riguarda il giorno corrente.
 Il firmware aggiunge `Z` anche ad orari apparentemente locali: `starttime`
 è mantenuto come dato del dispositivo, non interpretato come UTC certo.
 
+### Ricerca del campanello push — 17 ottobre 2026
+
+Analisi statica di VIEW Door Android **V2.2.11**, versionCode 47, scaricata
+da [APKPure](https://apkpure.net/it/vimar-view-door/com.vimar.viewdoor/download).
+SHA-256 APK: `085e5084771876f37393b387ef74db4d8603613cc7dd111b2148c7589108faea`.
+L'app non è stata installata o eseguita. Risultati del codice, **non ancora
+verificati con una pressione reale su questo monitor**:
+
+- **Push cloud presente:** `com.quvii.qvpushf.service.QvFcmPushService`
+  estende `FirebaseMessagingService`. `FcmPushService.onQvMessageReceived`
+  inoltra il messaggio a `PushHelper.HandlePush`, che apre la schermata
+  di chiamata per l'evento 19. `QvPushInfo` definisce
+  `ALARM_TYPE_CALL=19` e `ALARM_TYPE_CALL_RECEIVED=20`.
+- Nel ramo Qualvision del parser FCM compaiono `AlarmId`, `DevUmid`,
+  `DevChNo`, `AlarmEvent`, `AlarmTime`, `AlarmState`. Il numero di canale
+  `DevChNo` viene incrementato di uno; la corrispondenza con le due targhe
+  va verificata. Altri rami OEM applicano conversioni diverse agli eventi.
+- La registrazione push associa account/client e token della piattaforma:
+  `QvPushServerManager`, `QvPushHelper.refreshToken` e
+  `AlarmPushApi` (`/pushserver/api/v1/client/register`). Non basta conoscere
+  la password LAN per ricevere FCM; un ricevitore Python cloud richiede
+  autenticazione e registrazione del proprio client, ancora da implementare.
+- **MQTT esiste**, in `com.quvii.shadow.mqtt.QvMqttManager`, con topic
+  `tdk/client_api/users/get/<account>/<client>/#` e
+  `tdk/client_api/sys/get/<client>/#`. I gestori esaminati trattano stato,
+  configurazione e associazioni dei dispositivi: nessuna prova che portino
+  anche la pressione del campanello. Non sono topic di un broker LAN
+  già verificato.
+- **Pista locale nativa:** `lib/arm64-v8a/liblive_player.so` esporta
+  `SDK_StartListenEx`, `IQUIIDevice::OnAlarmListenStart`,
+  `WQ_LIB::CAlarmDeal::StartListenEx` e `CDvrAlarmChannel::OnRespond`.
+  È un listener allarmi del SDK; la sua presenza non dimostra il supporto
+  sul K42957 né che il campanello sia tra gli eventi disponibili.
+- Nell'ARM64 analizzato: `SDK_StartListenEx` è a `0x67c004`,
+  `CAlarmDeal::StartListenEx` a `0x772b3c`,
+  `sendAlarmQuery_dvr2` a `0x7e608c`. Quest'ultima costruisce un header
+  di 32 byte: variante 0 con opcode `0xA1`; variante 1, usata dal percorso
+  Ex, con una serie di richieste `0x68` e sottotipo `2` a offset 8.
+  Non inviare questi byte direttamente sulla connessione video: login,
+  trasporto e framing della sessione di controllo restano da ricostruire.
+
+Priorità concordata: tentare prima il listener locale in Python; usare il
+cloud se necessario. Prima di collegarlo a Home Assistant occorre osservare
+pressioni reali sulle due targhe, distinguere inizio/fine chiamata, verificare
+duplicati e riconnessione. Il watcher sopra rimane un fallback a polling;
+questa ricerca non aggiunge ancora un ricevitore push funzionante.
+
 ### Video live
 
 ```sh
